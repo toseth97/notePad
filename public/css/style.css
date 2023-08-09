@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap');
+
+* {
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.animate-up-1 {
+    animation-name: animate-up;
+    animation-duration: .4s;
+    animation-fill-mode: backwards;
+    animation-timing-function: ease-in-out;
+}
+
+.animate-up-2 {
+    animation-name: animate-up;
+    animation-duration: .3s;
+    animation-delay: .5s;
+    animation-fill-mode: backwards;
+    animation-timing-function: ease-in-out;
+}
+
+.animate-up-3 {
+    animation-name: animate-up;
+    animation-duration: .5s;
+    animation-delay: 1s;
+    animation-fill-mode: backwards;
+    animation-timing-function: ease-in-out;
+}
+
+
+@keyframes animate-up {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.noteBtn {
+    padding: .5rem;
+    border-radius: 5px;
+}
+
+
+.noteBtn a {
+    padding: 3rem;
+}
+
+/* form hide */
+
+.formHide {
+    display: none;
+    visibility: hidden;
+}
+
+.formHide.active {
+    display: flex;
+    visibility: visible;
+    animation-name: animate-up;
+    animation-duration: .5s;
+    animation-fill-mode: backwards;
+    animation-timing-function: ease-in-out;
+}
+
+
+.formHide input {
+    border: none;
+    outline: none;
+    padding: .5rem 2rem;
+    border-radius: 5px;
+    background-color: #ffffff50;
+    color: #fff;
+    text-align: center;
+}
+
+.formHide input::placeholder {
+    text-align: center;
+    color: #fff;
+}
