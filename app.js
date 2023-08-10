@@ -29,6 +29,10 @@ const noteTitleSChema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now
+    },
+    status: {
+        type:Boolean,
+        default:true
     }
 })
 
@@ -47,30 +51,30 @@ app.get("/", function(req, res){
 })
 
 app.post("/", function(req, res){
-    console.log(req.body.name)
-    const name = _.toUpper(req.body.name)
-    
-    (async function(){
+    console.log(req.body)
+    const name = _.capitalize(req.body.name)
+    post()
+    async function post(){
             const note = await Note.find({title:name})
             if(note.length > 0){
-                res.send(note)
+                res.redirect("/"+name)
             }else{
                 const newNote = await Note.create({name:name})
-                res.send(newNote)
+                res.redirect("/"+newNote)
             }
             
             
-        })()
+        }
 })
 
-app.get("/:params", function(req, res){
+app.get("/:name", function(req, res){
 
-    const name = req.params
-    console.log(name)
-    // (async function(){
-    //     const note = await Note.find()
-    //     res.render("note", {note:note})
-    // })()
+    get().catch(err=>err.message)
+
+    async function get(){
+        const note = await Note.find({name:(req.params.name)})
+        res.render("note", {note:note, title:(note.name)})
+    }
 })
 
 

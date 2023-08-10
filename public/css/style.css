@@ -75,9 +75,11 @@
     background-color: #ffffff50;
     color: #fff;
     text-align: center;
+
 }
 
 .formHide input::placeholder {
     text-align: center;
     color: #fff;
+    opacity: .7;
 }
