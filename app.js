@@ -33,16 +33,27 @@ const noteTitleSChema = new mongoose.Schema({
     status: {
         type:Boolean,
         default:true
-    }
+    },
+
+})
+
+const userSchema = new mongoose.Schema({
+    user:String, 
 })
 
 const noteSchema = new mongoose.Schema({
     name: String,
-    notes:[noteTitleSChema]
+    notes:[noteTitleSChema],
+    user:userSchema
 })
+
+
 // model for note document from above schema
 
-const Note = mongoose.model("note", noteSchema)
+const User = mongoose.model("User", userSchema)
+const NoteCollection = mongoose.model("noteCollection", noteSchema)
+const Note = mongoose.model("note", noteTitleSChema)
+
 
 //get request to default page (Welcome Page)
 
@@ -51,30 +62,60 @@ app.get("/", function(req, res){
 })
 
 app.post("/", function(req, res){
-    console.log(req.body)
-    const name = _.capitalize(req.body.name)
+    const listName = _.capitalize(req.body.listName)
+    const userName = _.capitalize(req.body.userName)
+    
     post()
     async function post(){
-            const note = await Note.find({title:name})
-            if(note.length > 0){
-                res.redirect("/"+name)
-            }else{
-                const newNote = await Note.create({name:name})
-                res.redirect("/"+newNote)
+        const username = await User.find({user:userName})
+        console.log(await User.find({user:username}).noteList)
+        const listname = await NoteCollection.find({name:listName})
+        console.log(username)
+        console.log(listname)
+        if(username.length > 0){
+            if(listName && (listname.length == 0)) {  //check if the list name is not in list collections
+                const user = await User.findOne({user:userName})
+                const newNoteList = new NoteCollection({name:listName})
+                newNoteList.user = user
+                await newNoteList.save()
+                res.redirect("/"+userName+"/"+listName)
             }
-            
+            else if(listName && (listname.length > 0)){
+                console.log("1")
+                res.redirect("/"+userName+"/"+listName)
+            }
+        }else{
+            const newUser = new User({user:userName})
+            await newUser.save()
+            if (listName){
+                const newUser = new User({user:userName})
+                const newNoteList = new NoteCollection({name:listName})
+                newNoteList.user = newUser
+                
+                await newNoteList.save()
+                res.redirect("/"+(newUser.user)+"/"+listName)
+            }
+            res.redirect("/"+(newUser.user))
             
         }
+            
+            
+    }
 })
 
-app.get("/:name", function(req, res){
+app.get("/:user", function(req, res){
 
     get().catch(err=>err.message)
 
     async function get(){
-        const note = await Note.find({name:(req.params.name)})
-        res.render("note", {note:note, title:(note.name)})
+        const user = await User.find({user:(req.params.user)})
+        res.render("note", {user:(user.user), title:(user.user)})
     }
+})
+
+app.get("/:user/:list", function(req, res){
+    console.log(req.params.user)
+    console.log(req.params.list)
 })
 
 
