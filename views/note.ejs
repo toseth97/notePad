@@ -1,18 +1,57 @@
-<!-- <% if((note.length)> 0){ %>
-    <% note.forEach(item=>{ %>
-        <div>
-            <h1>
-                <%= item.title %>
-            </h1>
-        </div>
-        <% }) %>
-            <% } else { %>
-                <p>No notes yet</p>
-                <% } %> -->
-
-
 <%- include("partials/header") %>
 
-    <p>TEst</p>
+    <div class="lg:flex w-screen gap-2 min-h-screen relative overflow-hidden">
+        <div class="lg:hidden absolute p-2 z-40 ">
+            <i id="bx" class='bx bx-menu border rounded p-2 text-2xl text-white font-bold'></i>
+        </div>
+        <div
+            class="flex-left flex flex-col lg:relative absolute hide lg:left-0 -left-full pt-36 lg:pt-0 grow-0 lg:bg-transparent text-white lg:text-black bg-slate-900/[.95] max-h-screen">
+
+            <div class="lg:h-32 border-b flex flex-col justify-between p-2 ">
+                <p class="opacity-50">DEVWITHTOBI NOTE</p>
+                <p class="justify-end">Lawal Tobiloba</p>
+            </div>
+            <div class="grow-1 overflow-y-scroll">
+                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">List 1</h3>
+                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">List 1</h3>
+                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">List 1</h3>
+                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">List 1</h3>
+                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">List 1</h3>
+                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">List 1</h3>
+                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">List 1</h3>
+                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">List 1</h3>
+                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">List 1</h3>
+                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">List 1</h3>
+                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">List 1</h3>
+                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">List 1</h3>
+
+            </div>
+            <form class="flex w-full mt-12 ">
+                <input class="grow addlistInput bg-transparent mr-2" type="text" placeholder="Add new list">
+                <button class="rounded-full px-10 py-2 mt-2 bg-pink-500 block hover:bg-pink-700"
+                    type="submit">+</button>
+            </form>
+        </div>
+        <div class="flex-right grow-1">
+            <div class="list-head lg:h-40 h-56 ">
+
+                <div class="shader flex flex-col item-end justify-end px-6 py-4">
+                    <h3 class="font-bold text-4xl mb-4">MY DAY</h3>
+                    <p>Notes for Today</p>
+                </div>
+
+            </div>
+            <div class="grow">
+                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">NOTE 1</h3>
+                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">NOTE 1</h3>
+                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">NOTE 1</h3>
+                <form class="flex w-full mt-12 flex-col  px-8">
+                    <input class="grow addlistInput bg-transparent mr-2" type="text" placeholder="Add New Note">
+                    <button class="rounded-full px-10 py-2 mt-2 bg-pink-500 block hover:bg-pink-700"
+                        type="submit">+</button>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <%- include("partials/footer") %>

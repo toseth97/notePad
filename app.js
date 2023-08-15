@@ -114,8 +114,10 @@ app.get("/:user", function(req, res){
 })
 
 app.get("/:user/:list", function(req, res){
-    console.log(req.params.user)
-    console.log(req.params.list)
+    const username = req.params.user
+    const listname = req.params.list
+
+    res.render("note")
 })
 
 

@@ -3,13 +3,47 @@
 
     const start = document.querySelector(".noteBtn")
     const formHide = document.querySelector(".formHide")
+    const menu = document.getElementById("bx")
+    const hide = document.querySelector(".hide")
 
-    start.addEventListener("click", () => {
-        if (!formHide.classList.contains("active"))
-            formHide.classList.add("active")
-    })
+
+    if (start) {
+        console.log(start)
+        start.addEventListener("click", () => {
+            if (!formHide.classList.contains("active"))
+                formHide.classList.add("active")
+        })
+    }
+
+
+    if (menu) {
+        console.log(menu)
+        menu.addEventListener("click", () => {
+            if (menu.classList.contains("bx-menu")) {
+                if (!hide.classList.contains("inactive")) {
+                    hide.classList.add("inactive")
+                    menu.classList.remove("bx-menu")
+                    menu.classList.add("bx-x")
+                }
+
+            }
+            else if (menu.classList.contains("bx-x")) {
+                if (hide.classList.contains("inactive")) {
+                    menu.classList.remove("bx-x")
+                    menu.classList.add("bx-menu")
+                    hide.classList.remove("inactive")
+                }
+
+
+
+            }
+            console.log("clicked")
+        })
+    }
 
 
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+
 
 </html>
