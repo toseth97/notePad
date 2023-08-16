@@ -9,20 +9,11 @@
 
             <div class="lg:h-32 border-b flex flex-col justify-between p-2 ">
                 <p class="opacity-50">DEVWITHTOBI NOTE</p>
-                <p class="justify-end">Lawal Tobiloba</p>
+                <p class="justify-end">Hello <%= note.user.user %>
+                </p>
             </div>
             <div class="grow-1 overflow-y-scroll">
-                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">List 1</h3>
-                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">List 1</h3>
-                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">List 1</h3>
-                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">List 1</h3>
-                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">List 1</h3>
-                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">List 1</h3>
-                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">List 1</h3>
-                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">List 1</h3>
-                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">List 1</h3>
-                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">List 1</h3>
-                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">List 1</h3>
+
                 <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">List 1</h3>
             </div>
             <form class="flex w-full mt-12 pb-4 ">
@@ -36,7 +27,10 @@
             <div class="list-head lg:h-46 h-80 grow-0 ">
 
                 <div class="shader flex flex-col item-end justify-end px-6 py-4">
-                    <h3 class="font-bold text-4xl mb-4">MY DAY</h3>
+                    <h3 class="font-bold text-4xl mb-4">
+                        <%= note.name %>
+
+                    </h3>
                     <p>Notes for Today</p>
                 </div>
 

@@ -68,10 +68,9 @@ app.post("/", function(req, res){
     post()
     async function post(){
         const username = await User.find({user:userName})
-        console.log(await User.find({user:username}).noteList)
+        
         const listname = await NoteCollection.find({name:listName})
-        console.log(username)
-        console.log(listname)
+        
         if(username.length > 0){
             if(listName && (listname.length == 0)) {  //check if the list name is not in list collections
                 const user = await User.findOne({user:userName})
@@ -81,7 +80,7 @@ app.post("/", function(req, res){
                 res.redirect("/"+userName+"/"+listName)
             }
             else if(listName && (listname.length > 0)){
-                console.log("1")
+                
                 res.redirect("/"+userName+"/"+listName)
             }
         }else{
@@ -108,16 +107,30 @@ app.get("/:user", function(req, res){
     get().catch(err=>err.message)
 
     async function get(){
-        const user = await User.find({user:(req.params.user)})
+        const user = await User.findOne({user:(req.params.user)})
         res.render("note", {user:(user.user), title:(user.user)})
     }
 })
 
 app.get("/:user/:list", function(req, res){
-    const username = req.params.user
-    const listname = req.params.list
+    
 
-    res.render("note")
+    
+    async function get(){
+        const username = _.capitalize(req.params.user)
+        const listname = _.capitalize(req.params.list)
+        const user = await User.findOne({user:username})
+        let noteList = await NoteCollection.findOne({name:listname})
+        console.log("first")
+        console.log(noteList.user.user)
+        if (noteList.user.user == user.user){
+            res.render("note",{note:noteList} )
+        }
+                
+    }
+    get().catch(err=>console.log(err.message))
+
+
 })
 
 
