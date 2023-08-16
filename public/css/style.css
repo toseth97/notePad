@@ -140,14 +140,17 @@
 }
 
 .addlistInput {
-    border: none;
     outline: none;
-    border-bottom: 2px outset #ec4899;
+    border: none;
+    border-bottom: 2px solid #334155;
+
 }
 
-.addlistInput:focus {
+.addlistInput:focus,
+.addlistInput:active,
+.addlistInput:target {
     outline: none;
-    border: none;
+    border-bottom: 2px solid #334155;
 }
 
 .hide {
