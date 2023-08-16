@@ -12,7 +12,7 @@ connectDB().catch(err=>console.log(err.message))
 
 //connect to mongoDB
 async function connectDB(){
-    await mongoose.connect("mongodb://127.0.0.1:27017/myNoteApp").then(console.log("DB connected and running")).catch(err=>console.log(err.message))
+    await mongoose.connect("mongodb+srv://devwithtobi:Samuel9721@cluster0.c7nxjo2.mongodb.net/myNoteApp?retryWrites=true&w=majority").then(console.log("DB connected and running")).catch(err=>console.log(err.message))
 }
 
 //setting middleware for express
