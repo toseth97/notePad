@@ -142,15 +142,13 @@
 .addlistInput {
     outline: none;
     border: none;
-    border-bottom: 2px solid #334155;
-
+    border-bottom: 15px solid #334155;
 }
 
 .addlistInput:focus,
-.addlistInput:active,
-.addlistInput:target {
+.addlistInput:active {
     outline: none;
-    border-bottom: 2px solid #334155;
+
 }
 
 .hide {

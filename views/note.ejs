@@ -9,14 +9,21 @@
 
             <div class="lg:h-32 border-b flex flex-col justify-between p-2 ">
                 <p class="opacity-50">DEVWITHTOBI NOTE</p>
-                <p class="justify-end">Hello <%= note.user.user %>
+                <p class="justify-end">Hello <%= user %>
                 </p>
             </div>
             <div class="grow-1 overflow-y-scroll h-screen">
+                <% console.log(list) %>
+                    <% list.forEach(item=>{ %>
+                        <div class="flex item-center justify-center hover:bg-gray-50 hover:font-bold border-b px-4  ">
+                            <h3 class="grow-1 w-full p-2">
+                                <%= item.name %>
+                            </h3>
+                            <button class=""> <i
+                                    class='deleteBtn text-red-500 bx bxs-trash grow-0 text-2xl'></i></button>
+                        </div>
+                        <% }) %>
 
-                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">List 1 <i
-                        class='text-red-600 bx bxs-trash'></i>
-                </h3>
             </div>
             <form class="flex w-full mt-12 pb-4 ">
                 <input class="grow addlistInput bg-transparent mr-2" type="text" placeholder="Add new list">
@@ -30,7 +37,7 @@
 
                 <div class="shader flex flex-col item-end justify-end px-6 py-4">
                     <h3 class="font-bold text-4xl mb-4">
-                        <%= note.name %>
+                        <%= list[0].name %>
 
                     </h3>
                     <p>Notes for Today</p>

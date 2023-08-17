@@ -87,10 +87,8 @@ app.post("/", function(req, res){
             const newUser = new User({user:userName})
             await newUser.save()
             if (listName){
-                const newUser = new User({user:userName})
                 const newNoteList = new NoteCollection({name:listName})
                 newNoteList.user = newUser
-                
                 await newNoteList.save()
                 res.redirect("/"+(newUser.user)+"/"+listName)
             }
@@ -120,12 +118,15 @@ app.get("/:user/:list", function(req, res){
         const username = _.capitalize(req.params.user)
         const listname = _.capitalize(req.params.list)
         const user = await User.findOne({user:username})
-        let noteList = await NoteCollection.findOne({name:listname})
-        console.log("first")
-        console.log(noteList.user.user)
-        if (noteList.user.user == user.user){
-            res.render("note",{note:noteList} )
-        }
+        let notes = await NoteCollection.find({name:listname})
+        let list = []
+        console.log(notes)
+        notes.forEach(item=>{
+            if (item.user.user == user.user){
+                list.push(item)
+            }
+        })
+        res.render("note", {list:list, user:user.user})
                 
     }
     get().catch(err=>console.log(err.message))
