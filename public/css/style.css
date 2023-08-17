@@ -158,4 +158,14 @@
 .hide.inactive {
     transition: .3s ease-in-out;
     left: 0;
+    width: 90vw;
+}
+
+.deleteBtn {
+    opacity: 0;
+    transition: .2s ease-in-out;
+}
+
+.eachList:hover>.deleteBtn {
+    opacity: 1;
 }
