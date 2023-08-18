@@ -5,17 +5,17 @@
             <i id="bx" class='bx bx-menu border rounded p-2 text-2xl text-white font-bold'></i>
         </div>
         <div
-            class="flex-left flex flex-col lg:relative absolute hide lg:left-0 -left-full pt-36 lg:pt-0 grow-0 lg:bg-transparent text-white lg:text-black bg-slate-900/[.98] h-screen">
+            class="flex-left flex flex-col lg:relative absolute hide lg:left-0 -left-full pt-36 lg:pt-0 grow-0 lg:bg-transparent text-white lg:text-black bg-slate-900/[.98] h-screen z-20">
 
             <div class="lg:h-32 border-b flex flex-col justify-between p-2 ">
                 <p class="opacity-50">DEVWITHTOBI NOTE</p>
-                <p class="justify-end text-2xl">Hello <%= user %>
+                <p class="justify-end text-2xl font-bold">Hello, <%= user %>
                         &#128075;
                 </p>
             </div>
             <div class="grow-1 overflow-y-scroll h-screen">
                 <% lists.forEach(item=>{ %>
-                    <div class="eachList flex items-center justify-center hover:font-bold border-b px-4  ">
+                    <div class="eachList flex items-center justify-center hover:shadow-inner border-b px-4  ">
                         <form action="/findList" method="post" class="grow-1 w-full p-2">
                             <input type="hidden" name="listID" value="<%= item._id %>">
 
@@ -41,9 +41,9 @@
             </form>
         </div>
         <div class="flex-right flex flex-col grow-1 max-h-screen">
-            <div class="list-head lg:h-46 h-80 grow-0 ">
+            <div class="list-head lg:h-60 h-80 grow-0 pt-20 relative shadow-xl">
 
-                <div class="shader flex flex-col item-end justify-end px-6 py-4">
+                <div class="pt-20 absolute top-0 shader flex flex-col item-end justify-end px-6 py-4">
                     <h3 class="font-bold text-4xl mb-4">
                         <%= list[0].name %>
 
@@ -52,23 +52,34 @@
                 </div>
 
             </div>
-            <div class="flex flex-col grow-1 h-screen overflow-y-scroll">
+            <div class="flex flex-col grow-1 h-screen overflow-y-scroll ">
                 <% if (list.notes){ %>
                     <% list.notes.forEach(item=> { %>
-                        <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">
+                        <h3 class="hover:bg-gray-50 hover:shadow-inner border-b w-full p-2">
                             <%=item.title %>
                         </h3>
                         <%})%>
-                            <%}%>
+                            <%} else {%>
+                                <h1 class="text-center grow-1 font-bold text-2xl pt-20 pb-8">No notes</h1>
+                                <p class="text-center">To add a note, Make sure you already select a list</p>
+                                <%}%>
+
 
 
             </div>
-            <form action="/addNote" method="post" class="flex w-full mt-12 flex-col grow-0 px-8 pb-4">
-                <input class="grow addlistInput bg-transparent mr-2" name="note" type="text" placeholder="Add New Note">
-                <input type="hidden" name="listName" value="<%= list._id %>">
-                <button class="rounded-full px-10 py-1 mt-2 bg-slate-700 block hover:bg-slate-900 text-white font-bold"
-                    name="user" value="<%= userId %>" type="submit">+</button>
-            </form>
+            <% if (lists.length> 0) {%>
+                <form action="/addNote" method="post" class="flex w-full  flex-col grow-0 px-8 pb-4">
+
+                    <input class="grow mb-4 addlistInput bg-transparent mr-2" name="note" type="text"
+                        placeholder="Note Title">
+                    <input type="hidden" name="listName" value="<%= list._id %>">
+                    <textarea rows="2" maxlength="200" class="w-full rounded shadow-lg focus"
+                        placeholder="Note Content"></textarea></textarea>
+                    <button class=" rounded-full px-10 py-1 mt-2 bg-slate-700 block hover:bg-slate-900 text-white
+                        font-bold" name="user" value="<%= userId %>" type="submit">Add New Note</button>
+                </form>
+
+                <%}%>
         </div>
     </div>
 

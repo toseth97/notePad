@@ -160,3 +160,7 @@
     left: 0;
     width: 90vw;
 }
+
+textarea {
+    resize: none;
+}

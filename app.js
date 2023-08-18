@@ -79,10 +79,14 @@ app.post("/", function(req, res){
                 await newNoteList.save()
                 res.redirect("/"+userName+"/"+listName)
             }
+            else if(!listName){
+                res.redirect("/"+userName)
+            }
             else if(listName && (listname.length > 0)){
                 res.redirect("/"+userName+"/"+listName)
             }
-        }else{
+        }       
+        else{
             const newUser = new User({user:userName})
             await newUser.save()
             if (listName){
@@ -104,9 +108,8 @@ app.get("/:user", function(req, res){
     get().catch(err=>err.message)
 
     async function get(){
-        const user = await User.findOne({user:(req.params.user)})
+        const user = await User.findOne({user:(_.capitalize(req.params.user))})
         if (user){
-            console.log()
             const list = [{
                 name:"You are yet to select list"
             }]
