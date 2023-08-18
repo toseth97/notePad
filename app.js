@@ -80,6 +80,7 @@ app.post("/", function(req, res){
                 res.redirect("/"+userName+"/"+listName)
             }
             else if(!listName){
+                
                 res.redirect("/"+userName)
             }
             else if(listName && (listname.length > 0)){
@@ -109,7 +110,10 @@ app.get("/:user", function(req, res){
 
     async function get(){
         const user = await User.findOne({user:(_.capitalize(req.params.user))})
+        
+        
         if (user){
+            console.log()
             const list = [{
                 name:"You are yet to select list"
             }]
@@ -194,9 +198,21 @@ app.post("/findList", function(req, res){
 
 
 app.post("/addNote", function(req, res){
-    console.log(req.body.user)
-    console.log(req.body.note)
-    console.log(req.body.listName)
+    
+    const title = _.capitalize(req.body.title)
+    const content = _.capitalize(req.body.content)
+
+    post()
+    async function post(){
+        const list = await NoteCollection.findOne({_id:req.body.listID})
+        const newNote = new Note({
+            title : title , content : content
+        }) //create new note
+        await newNote.save()
+        list.notes.push(newNote)
+        await list.save()
+        res.redirect("/"+list.user.user+"/"+list.name)
+    }
 })
 
 

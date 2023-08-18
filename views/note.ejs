@@ -40,7 +40,7 @@
                     name="user" value="<%= userId %>" type="submit">+</button>
             </form>
         </div>
-        <div class="flex-right flex flex-col grow-1 max-h-screen">
+        <div class="flex-right shadow-2xl flex flex-col grow-1 max-h-screen">
             <div class="list-head lg:h-60 h-80 grow-0 pt-20 relative shadow-xl">
 
                 <div class="pt-20 absolute top-0 shader flex flex-col item-end justify-end px-6 py-4">
@@ -52,29 +52,31 @@
                 </div>
 
             </div>
-            <div class="flex flex-col grow-1 h-screen overflow-y-scroll ">
-                <% if (list.notes){ %>
-                    <% list.notes.forEach(item=> { %>
-                        <h3 class="hover:bg-gray-50 hover:shadow-inner border-b w-full p-2">
-                            <%=item.title %>
-                        </h3>
-                        <%})%>
-                            <%} else {%>
-                                <h1 class="text-center grow-1 font-bold text-2xl pt-20 pb-8">No notes</h1>
-                                <p class="text-center">To add a note, Make sure you already select a list</p>
-                                <%}%>
+            <div class="flex flex-col grow-1 h-screen overflow-y-scroll py-4 ">
+                <% console.log(list[0].notes) %>
+                    <% if (list[0].notes.length> 0){ %>
+                        <% list[0].notes.forEach(item=> { %>
+                            <h3 class="hover:bg-gray-50 hover:shadow-inner border-b w-full p-2">
+                                <%=item.title %>
+                            </h3>
+                            <%})%>
+                                <%} else {%>
+                                    <h1 class="text-center grow-1 font-bold text-2xl pt-20 pb-8">No notes</h1>
+                                    <p class="text-center">To add a note, Make sure you already have a selected list</p>
+                                    <%}%>
 
 
 
             </div>
-            <% if (lists.length> 0) {%>
+            <% if (list[0].user) {%>
+
                 <form action="/addNote" method="post" class="flex w-full  flex-col grow-0 px-8 pb-4">
 
-                    <input class="grow mb-4 addlistInput bg-transparent mr-2" name="note" type="text"
+                    <input class="grow mb-4 addlistInput bg-transparent mr-2" name="title" type="text"
                         placeholder="Note Title">
-                    <input type="hidden" name="listName" value="<%= list._id %>">
-                    <textarea rows="2" maxlength="200" class="w-full rounded shadow-lg focus"
-                        placeholder="Note Content"></textarea></textarea>
+                    <input type="hidden" name="listID" value="<%= list[0]._id %>">
+                    <textarea rows="2" maxlength="200" class="w-full rounded shadow-lg focus" placeholder="Note Content"
+                        name="content"></textarea></textarea>
                     <button class=" rounded-full px-10 py-1 mt-2 bg-slate-700 block hover:bg-slate-900 text-white
                         font-bold" name="user" value="<%= userId %>" type="submit">Add New Note</button>
                 </form>
