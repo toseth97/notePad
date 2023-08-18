@@ -54,7 +54,7 @@
             </div>
             <div class="flex flex-col grow-1 h-screen overflow-y-scroll py-4 ">
                 <% console.log(list[0].notes) %>
-                    <% if (list[0].notes.length> 0){ %>
+                    <% if (list[0].name !=="You are yet to select list" ){ %>
                         <% list[0].notes.forEach(item=> { %>
                             <h3 class="hover:bg-gray-50 hover:shadow-inner border-b w-full p-2">
                                 <%=item.title %>
