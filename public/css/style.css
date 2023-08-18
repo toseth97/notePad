@@ -166,6 +166,6 @@
     transition: .2s ease-in-out;
 }
 
-.eachList:hover>.deleteBtn {
+.eachList:hover .deleteBtn {
     opacity: 1;
 }

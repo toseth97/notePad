@@ -80,7 +80,6 @@ app.post("/", function(req, res){
                 res.redirect("/"+userName+"/"+listName)
             }
             else if(listName && (listname.length > 0)){
-                
                 res.redirect("/"+userName+"/"+listName)
             }
         }else{
@@ -106,7 +105,16 @@ app.get("/:user", function(req, res){
 
     async function get(){
         const user = await User.findOne({user:(req.params.user)})
-        res.render("note", {user:(user.user), title:(user.user)})
+        if (user){
+            console.log()
+            const list = [{
+                name:"You are yet to select list"
+            }]
+            let notes = await NoteCollection.find({user:user})
+            res.render("note", {list:list, lists:notes, user:user.user, userId:user._id})
+        }
+        
+        
     }
 })
 
@@ -118,20 +126,74 @@ app.get("/:user/:list", function(req, res){
         const username = _.capitalize(req.params.user)
         const listname = _.capitalize(req.params.list)
         const user = await User.findOne({user:username})
-        let notes = await NoteCollection.find({name:listname})
-        let list = []
-        console.log(notes)
-        notes.forEach(item=>{
-            if (item.user.user == user.user){
-                list.push(item)
-            }
-        })
-        res.render("note", {list:list, user:user.user})
+        let notes = await NoteCollection.find({user:user})
+        let note = await NoteCollection.find({name:listname, user:user})
+        res.render("note", {list:note, lists:notes, user:user.user, userId:user._id})
                 
     }
     get().catch(err=>console.log(err.message))
 
 
+})
+
+// Craete new List (NoteCollections)
+
+app.post("/addList", function(req, res){
+    
+
+
+    post().catch(err=> console.log(err.message))
+
+    async function post(){
+        const listName = _.capitalize(req.body.newList)
+        const userName = req.body.user
+        const user = await User.findOne({_id: userName})
+        const listSearch = await NoteCollection.findOne({name:listName, user:user})
+        if (listSearch == null){
+            const newList = new NoteCollection({name: listName})
+            newList.user = user
+            //console.log(newList)
+            await newList.save()
+
+        }
+        res.redirect("/"+user.user+"/"+listName)
+        
+    }
+})
+
+
+app.post("/delete", function(req, res){
+    post()
+    async function post(){
+        const id = req.body.ID;
+        const userID = req.body.userID;
+        console.log(id)
+        console.log(userID)
+        
+        const user = await User.findOne({_id:userID})
+        const deleteItem= await NoteCollection.findByIdAndDelete(id);
+        console.log(user)
+        res.redirect("/"+user.user)
+        
+    }
+})
+
+
+app.post("/findList", function(req, res){
+    post()
+    async function post(){
+        const listID = await NoteCollection.findOne({_id:req.body.listID})
+        const user = listID.user.user
+        res.redirect("/"+user+"/"+listID.name)
+        
+    }
+})
+
+
+app.post("/addNote", function(req, res){
+    console.log(req.body.user)
+    console.log(req.body.note)
+    console.log(req.body.listName)
 })
 
 

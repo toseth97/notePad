@@ -9,27 +9,35 @@
 
             <div class="lg:h-32 border-b flex flex-col justify-between p-2 ">
                 <p class="opacity-50">DEVWITHTOBI NOTE</p>
-                <p class="justify-end">Hello <%= user %>
+                <p class="justify-end text-2xl">Hello <%= user %>
+                        &#128075;
                 </p>
             </div>
             <div class="grow-1 overflow-y-scroll h-screen">
-                <% console.log(list) %>
-                    <% list.forEach(item=>{ %>
-                        <div class="eachList flex item-center justify-center hover:font-bold border-b px-4  ">
-                            <h3 class="grow-1 w-full p-2">
+                <% lists.forEach(item=>{ %>
+                    <div class="eachList flex items-center justify-center hover:font-bold border-b px-4  ">
+                        <form action="/findList" method="post" class="grow-1 w-full p-2">
+                            <input type="hidden" name="listID" value="<%= item._id %>">
+
+                            <button type="submit" class="text-left grow-1 w-full p-2">
                                 <%= item.name %>
-                            </h3>
-                            <button class="deleteBtn"> <i
+                            </button>
+                        </form>
+                        <form action="/delete" method="post">
+                            <input type="hidden" name="userID" value="<%= item.user._id %>">
+                            <button class="deleteBtn" name="ID" value="<%= item._id %>"> <i
                                     class=' text-red-500 bx bxs-trash grow-0 text-2xl'></i></button>
-                        </div>
-                        <% }) %>
+                        </form>
+                    </div>
+                    <% }) %>
 
             </div>
-            <form class="flex w-full mt-12 pb-4 ">
-                <input class="grow addlistInput bg-transparent mr-2" type="text" placeholder="Add new list">
+            <form action="/addList" method="post" class="flex w-full mt-12 pb-4 ">
+                <input class="grow addlistInput bg-transparent mr-2" name="newList" type="text"
+                    placeholder="Add new list">
                 <button
                     class="rounded-full px-10 py-1 mt-2 bg-slate-700 block hover:bg-slate-900 block text-white font-bold"
-                    type="submit">+</button>
+                    name="user" value="<%= userId %>" type="submit">+</button>
             </form>
         </div>
         <div class="flex-right flex flex-col grow-1 max-h-screen">
@@ -45,23 +53,21 @@
 
             </div>
             <div class="flex flex-col grow-1 h-screen overflow-y-scroll">
+                <% if (list.notes){ %>
+                    <% list.notes.forEach(item=> { %>
+                        <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">
+                            <%=item.title %>
+                        </h3>
+                        <%})%>
+                            <%}%>
 
-                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">NOTE 1</h3>
-                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">NOTE 1</h3>
-                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">NOTE 1</h3>
-                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">NOTE 1</h3>
-                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">NOTE 1</h3>
-                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">NOTE 1</h3>
-                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">NOTE 1</h3>
-                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">NOTE 1</h3>
-                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">NOTE 1</h3>
-                <h3 class="hover:bg-gray-50 hover:font-bold border-b w-full p-2">NOTE 1</h3>
 
             </div>
-            <form class="flex w-full mt-12 flex-col grow-0 px-8 pb-4">
-                <input class="grow addlistInput bg-transparent mr-2" type="text" placeholder="Add New Note">
+            <form action="/addNote" method="post" class="flex w-full mt-12 flex-col grow-0 px-8 pb-4">
+                <input class="grow addlistInput bg-transparent mr-2" name="note" type="text" placeholder="Add New Note">
+                <input type="hidden" name="listName" value="<%= list._id %>">
                 <button class="rounded-full px-10 py-1 mt-2 bg-slate-700 block hover:bg-slate-900 text-white font-bold"
-                    type="submit">+</button>
+                    name="user" value="<%= userId %>" type="submit">+</button>
             </form>
         </div>
     </div>
