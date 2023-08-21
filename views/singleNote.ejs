@@ -45,51 +45,37 @@
 
                 <div class="pt-20 absolute top-0 shader flex flex-col item-end justify-end px-6 py-4">
                     <h3 class="font-bold text-4xl mb-4">
-                        <%= list[0].name %>
+                        <%= lists[0].name %>
 
                     </h3>
                     <p>Notes for Today</p>
                 </div>
 
             </div>
-            <div class="flex flex-col grow-1 h-screen overflow-y-scroll py-4 ">
+            <div class="flex flex-col grow-1 h-screen overflow-y-scroll w-full">
 
-                <% if (list[0].name !=="You are yet to select list" ){ %>
-                    <% list[0].notes.forEach(item=> { %>
-
-                        <form action="/Notes/<%=list[0].user.user%>/<%=list[0].name%>/<%=item.title%>" method="get"
-                            class="hover:bg-gray-50 hover:shadow-inner border-b w-full p-2">
-
-                            <button type="submit" class="text-left grow-1 w-full">
-                                <%=item.title %>
-                            </button>
+                <div class="py-4 px-8 flex justify-between text-slate-900  font-bold">
+                    <h2>
+                        <%=list[0].title%>
+                    </h2>
+                    <em>
+                        Date created: <%=list[0].createdAt.toLocaleDateString("en-US")%>
+                    </em>
+                </div>
+                <div class="px-10 flex flex-col">
+                    <p class="grow-1 overflow-y-scroll">
+                        <%=list[0].content%>
+                    </p>
+                    <div class="mt-24">
+                        <form class="grow-0" action="/delete/<%=user%>/<%=lists[0].name%>/<%=list[0]._id%>"
+                            method="post">
+                            <button type="submit" class="px-4 py-2 bg-slate-700 text-white rounded">Delete</button>
                         </form>
-
-                        <%})%>
-                            <%} else {%>
-                                <h1 class="text-center grow-1 font-bold text-2xl pt-20 pb-8">No notes</h1>
-                                <p class="text-center">To add a note, Make sure you already have a selected list
-                                </p>
-                                <%}%>
-
-
-
+                        <a href="/Notes/<%=user%>/<%=lists[0].name%>" class="py-2"><button
+                                class="px-4 py-2 my-2 bg-slate-700 text-white rounded">Go Back</button></a>
+                        <button class="w-40 px-4 py-2 bg-slate-700 text-white rounded">Play Note</button>
+                    </div>
+                </div>
             </div>
-            <% if (list[0].user) {%>
 
-                <form action="/addNote" method="post" class="flex w-full  flex-col grow-0 px-8 pb-4">
-
-                    <input class="grow mb-4 addlistInput bg-transparent mr-2" name="title" type="text"
-                        placeholder="Note Title" required>
-                    <input type="hidden" name="listID" value="<%= list[0]._id %>">
-                    <textarea rows="2" maxlength="200" class="w-full rounded shadow-lg focus" placeholder="Note Content"
-                        name="content" required></textarea></textarea>
-                    <button class=" rounded-full px-10 py-1 mt-2 bg-slate-700 block hover:bg-slate-900 text-white
-                        font-bold" name="user" value="<%= userId %>" type="submit">Add New Note</button>
-                </form>
-
-                <%}%>
-        </div>
-    </div>
-
-    <%- include("partials/footer") %>
+            <%- include("partials/footer") %>

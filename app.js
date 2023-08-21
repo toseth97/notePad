@@ -77,14 +77,14 @@ app.post("/", function(req, res){
                 const newNoteList = new NoteCollection({name:listName})
                 newNoteList.user = user
                 await newNoteList.save()
-                res.redirect("/"+userName+"/"+listName)
+                res.redirect("/Notes/"+userName+"/"+listName)
             }
             else if(!listName){
                 
-                res.redirect("/"+userName)
+                res.redirect("/Notes/"+userName)
             }
             else if(listName && (listname.length > 0)){
-                res.redirect("/"+userName+"/"+listName)
+                res.redirect("/Notes/"+userName+"/"+listName)
             }
         }       
         else{
@@ -94,9 +94,9 @@ app.post("/", function(req, res){
                 const newNoteList = new NoteCollection({name:listName})
                 newNoteList.user = newUser
                 await newNoteList.save()
-                res.redirect("/"+(newUser.user)+"/"+listName)
+                res.redirect("/Notes/"+(newUser.user)+"/"+listName)
             }
-            res.redirect("/"+(newUser.user))
+            res.redirect("/Notes/"+(newUser.user))
             
         }
             
@@ -104,16 +104,13 @@ app.post("/", function(req, res){
     }
 })
 
-app.get("/:user", function(req, res){
+app.get("/Notes/:user", function(req, res){
 
     get().catch(err=>err.message)
 
     async function get(){
         const user = await User.findOne({user:(_.capitalize(req.params.user))})
-        
-        
         if (user){
-            console.log()
             const list = [{
                 name:"You are yet to select list"
             }]
@@ -125,7 +122,7 @@ app.get("/:user", function(req, res){
     }
 })
 
-app.get("/:user/:list", function(req, res){
+app.get("/Notes/:user/:list", function(req, res){
     
 
     
@@ -140,8 +137,28 @@ app.get("/:user/:list", function(req, res){
     }
     get().catch(err=>console.log(err.message))
 
-
 })
+
+//get single note
+app.get("/Notes/:user/:list/:title/", function(req, res){
+    //get the id of the note from url params
+    const title = _.capitalize(req.params.title)
+    const list = req.params.list
+    
+    get()
+    async function get(){
+        const user = await User.findOne({user:_.capitalize(req.params.user)})
+        const items = await NoteCollection.find({user:user, name:list})
+        const item = items[0].notes.filter(item => { 
+            if(item.title == title){
+                return item
+            }         
+        })
+        
+        res.render("singleNote", {lists:items, list:item, user:user.user, userId:user._id})
+    }
+})
+
 
 // Craete new List (NoteCollections)
 
@@ -163,7 +180,7 @@ app.post("/addList", function(req, res){
             await newList.save()
 
         }
-        res.redirect("/"+user.user+"/"+listName)
+        res.redirect("/Notes/"+user.user+"/"+listName)
         
     }
 })
@@ -173,25 +190,39 @@ app.post("/delete", function(req, res){
     post()
     async function post(){
         const id = req.body.ID;
-        const userID = req.body.userID;
-        console.log(id)
-        console.log(userID)
+        const userID = req.body.userID;    
         
         const user = await User.findOne({_id:userID})
-        const deleteItem= await NoteCollection.findByIdAndDelete(id);
-        console.log(user)
-        res.redirect("/"+user.user)
+        const deleteItem= await NoteCollection.findById(id);
+        if (deleteItem.notes.length > 0){
+            deleteItem.notes.forEach( async (item) => {
+                await Note.findByIdAndDelete({_id:item._id})
+             })
+        }
+        const del = await NoteCollection.findByIdAndDelete({_id:id})
+        res.redirect("/Notes/"+user.user)
+        
         
     }
+})
+
+app.post("/delete/:user/:lists/:id", function(req, res){
+    post()
+    async function post (){
+        console.log(req.params.id)
+        const deletedItem = await Note.findOne({_id:req.params.id})
+        console.log(deletedItem)
+    }
+    res.redirect("/Notes/"+req.params.user+"/"+req.params.lists)
 })
 
 
 app.post("/findList", function(req, res){
     post()
     async function post(){
-        const listID = await NoteCollection.findOne({_id:req.body.listID})
-        const user = listID.user.user
-        res.redirect("/"+user+"/"+listID.name)
+        const list = await NoteCollection.findOne({_id:req.body.listID})
+        const user = list.user.user
+        res.redirect("/Notes/"+user+"/"+list.name)
         
     }
 })
@@ -211,7 +242,7 @@ app.post("/addNote", function(req, res){
         await newNote.save()
         list.notes.push(newNote)
         await list.save()
-        res.redirect("/"+list.user.user+"/"+list.name)
+        res.redirect("/Notes/"+list.user.user+"/"+list.name)
     }
 })
 
